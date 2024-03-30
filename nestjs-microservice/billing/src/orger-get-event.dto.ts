@@ -1,9 +1,8 @@
-export class OrderCreatedEvent {
+export class OrderGetEvent {
   constructor(
     public readonly orderId: string,
     public readonly userId: string,
     public readonly price: number,
-    public readonly stripePriceId?: number | string,
   ) {}
   //kafka will call a toString method on object so we need to specify it as there is not built-in toString method on class
   toString() {
@@ -11,7 +10,6 @@ export class OrderCreatedEvent {
       orderId: this.orderId,
       userId: this.userId,
       price: this.price,
-      stripePriceId: this?.stripePriceId,
     });
   }
 }

@@ -5,6 +5,7 @@ import { GetUserRequest } from './get-user-request.dto';
 
 @Injectable()
 export class AppService implements OnModuleInit {
+  private orderStorage: OrderCreatedEvent[] = [];
   constructor(
     @Inject('AUTH_SERVICE') private readonly authClient: ClientKafka,
   ) {}
@@ -15,13 +16,33 @@ export class AppService implements OnModuleInit {
     return 'Hello World!';
   }
 
+  getOrderInfo(
+    orderCreatedEvent: Partial<OrderCreatedEvent>,
+  ): OrderCreatedEvent[] {
+    return this.orderStorage.filter(
+      (item) => item?.userId == orderCreatedEvent?.userId,
+    );
+  }
+  storeOrderInfo(orderCreatedEvent: OrderCreatedEvent) {
+    this.orderStorage.push(orderCreatedEvent);
+  }
   handleOrderCreated(orderCreatedEvent: OrderCreatedEvent) {
     this.authClient
       .send('get_user', new GetUserRequest(orderCreatedEvent.userId))
       .subscribe((user) => {
+        this.storeOrderInfo({
+          ...orderCreatedEvent,
+          stripePriceId: user?.stripeUserId,
+        });
+        console.log(this.orderStorage);
         console.log(
           `Billing user with stripe ID ${user?.stripeUserId} a price of $${orderCreatedEvent?.price}...`,
         );
       });
+  }
+
+  async getOrdersByUserId(orderCreatedEvent: Partial<OrderCreatedEvent>) {
+    console.log(orderCreatedEvent);
+    return this.getOrderInfo(orderCreatedEvent);
   }
 }
