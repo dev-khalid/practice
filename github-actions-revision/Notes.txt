@@ -1,0 +1,52 @@
+1. Github Actions
+2. Actions & CI
+    Advantages of actions: 
+        > Fully integrated with Github
+        > Respond to any Github event
+        > Community powered workflows
+        > Any platform, any language, any cloud.
+3. CD & Realase management
+4. Self-hosted runners
+5. Build management
+6. Package management
+7. Secrets management
+
+Key functionalities
+    > Linux, macOS, Windows and containers
+    > Matrix builds
+    > Streaming, searchable, linkable logs
+    > Built-in secret store
+    > Easy to write, easy to share
+
+Github Actions
+    Events ----Trigger---> Workflows ----Use----> Actions
+
+Events: 
+    Inside on clause event's are written.
+    > Github triggered events list: 
+        > push, pull_request, public
+    > Scheduled events: Goes inside on clause and then schedule clause.
+        Example: 
+            on:
+                schedule:
+                - cron: * * * * *
+    > Manually triggered: workflow_dispatch (external systems)
+
+Workflows: 
+    > Workflows are like pipelines
+    > Codify useful, customized processes
+    > We usually store workflows in .github/workflows
+
+    > Actions run in VMs (Linux, Win, Mac) or Docker on Linux VM
+    > Logs streaming & artifacts
+    > Secret store with each repository
+
+Actions: 
+    > Reusable unit of code 
+    > Referencing vs authoring actions
+    > Storing shared actions (Like on uses clase of .yaml file uses: actions/setup-node@v1 this is basically coming from github.com/actions and there is a directory called setup-node and version is @v1)
+    > We can post our actions on github marketplace. 
+
+    > uses: actions/checkout@v2 [This actually download contents of your repo on the working directory from github]
+    > To understand actions syntax: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+
