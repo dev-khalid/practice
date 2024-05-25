@@ -1,28 +1,33 @@
 import express, { NextFunction, Request, Response } from "express";
 import http from "node:http";
-import { queue } from "./config/bull-config";
-
-import { createBullBoard } from "@bull-board/api";
-import { BullMQAdapter } from "@bull-board/api/bullMQAdapter.js";
-import { ExpressAdapter } from "@bull-board/express";
-const serverAdapter = new ExpressAdapter();
-const bullBoard = createBullBoard({
-  queues: [new BullMQAdapter(queue)],
-  serverAdapter: serverAdapter,
-});
-serverAdapter.setBasePath("/admin");
+import emailQueueService from "./services/email-queue-service";
 
 const app = express();
 
-app.use("/admin", serverAdapter.getRouter());
+app.use("/email-queue", emailQueueService.serverAdapter.getRouter());
 
-app.get("/add-email", (req, res) => {
-  queue.add("email", {
-    email: "khalid@grype.ca",
+app.get("/add-email/:email", (req, res) => {
+  emailQueueService.addEmail(req?.params?.email, {
+    attempts: 3,
+    backoff: {
+      type: "exponential",
+      delay: 1000,
+    },
   });
-  res.json("done");
-});
 
+  res.json(req?.params?.email);
+});
+setTimeout(() => {
+  for (let i = 1; i < 5; i++) {
+    emailQueueService.addEmail(`khalid+${i}@grype.ca`, {
+      attempts: 1,
+      backoff: {
+        type: "exponential",
+        delay: 1000,
+      },
+    });
+  }
+}, 2000);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
   next();
