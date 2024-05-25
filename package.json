@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@bull-board/express": "^5.18.3"
+  }
+}
