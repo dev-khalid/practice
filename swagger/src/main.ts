@@ -30,7 +30,7 @@ async function bootstrap() {
     operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
     extraModels: [],
   };
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('doc', app, document);
 
   await app.listen(3000);

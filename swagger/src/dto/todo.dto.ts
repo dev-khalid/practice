@@ -44,3 +44,4 @@ export class CreateTodoDto extends OmitType(Todo, [] as const) {
 }
 
 export class UpdateTodoDto extends PartialType(CreateTodoDto) {}
+
