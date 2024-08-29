@@ -1,0 +1,9 @@
+Study list of reflect-meatadata: 
+1. Dependency Injection: 
+  1. https://medium.com/@vahid.vdn/a-deep-dive-into-the-reflection-api-in-javascript-a62076130f05
+  2. https://medium.com/globant/expressjs-routing-with-decorators-dependency-injection-and-reflect-metadata-945f92e15a06
+  3. https://www.servicetitan.am/2021/07/13/typescript-decorators-dependency-injection.html
+
+2. https://docs.nestjs.com/custom-decorators
+3. https://github.com/typestack/class-validator
+4. Reflect-metadata documentation.

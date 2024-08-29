@@ -1,7 +1,10 @@
 /**
  * Useful links:
  * - https://blog.logrocket.com/practical-guide-typescript-decorators/#class-decorators
+ * - https://blog.bitsrc.io/typescripts-reflect-metadata-what-it-is-and-how-to-use-it-fb7b19cfc7e2
  */
+import "reflect-metadata";
+
 function withFuel(target: typeof Rocket, context: ClassDecoratorContext) {
   if (context.kind == "class") {
     return class extends target {
@@ -70,3 +73,45 @@ class Rocket {
 // rocket.addFuel(50);
 // // console.log(rocket.fuel);
 // console.log(rocket.isReadyForLaunch());
+
+function Injectable() {
+  return function (target: any) {
+    Reflect.defineMetadata("injectable", true, target);
+  };
+}
+
+@Injectable()
+class MyService {
+  constructor(private _dependency: MyDependency) {}
+
+  doSomething() {
+    this._dependency.doSomething();
+  }
+}
+
+@Injectable()
+class MyDependency {
+  doSomething() {
+    console.log("MyDependency is doing something");
+  }
+}
+
+let x = new MyDependency(); 
+x.doSomething() // worked properly!
+
+
+class DependencyInjection {
+  static get<T>(target: any): T {
+    const isInjectable = Reflect.getMetadata("injectable", target);
+    if (!isInjectable) {
+      throw new Error("Target is not injectable");
+    }
+
+    const dependencies = Reflect.getMetadata("design:paramtypes", target) || [];
+    const instances = dependencies.map((dep) => DependencyInjection.get(dep));
+    return new target(...instances);
+  }
+}
+
+const myService = DependencyInjection.get<MyService>(MyService);
+// myService.doSomething(); // Didn't work but I think with some brush-up it will also work, and I like the concept!

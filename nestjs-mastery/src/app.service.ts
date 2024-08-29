@@ -1,3 +1,7 @@
+/**
+ * Useful articles: 
+ * 1. https://blog.bitsrc.io/typescripts-reflect-metadata-what-it-is-and-how-to-use-it-fb7b19cfc7e2
+ */
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import 'reflect-metadata';
