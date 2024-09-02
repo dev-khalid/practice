@@ -115,3 +115,4 @@ class DependencyInjection {
 
 const myService = DependencyInjection.get<MyService>(MyService);
 // myService.doSomething(); // Didn't work but I think with some brush-up it will also work, and I like the concept!
+
