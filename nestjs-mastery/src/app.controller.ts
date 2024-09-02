@@ -4,9 +4,10 @@ import { Response } from 'express';
 import { RequestHeaders } from './custom-decorators/RequestHeaders';
 import { AllowedSites } from './custom-decorators/AllowedSites';
 import { SiteGuard } from './custom-decorators/SiteGuard';
+import { AllowedSitesV2 } from './custom-decorators/AllowedSitesV2';
 
 @Controller()
-@UseGuards(SiteGuard)
+// @UseGuards(SiteGuard)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -16,10 +17,9 @@ export class AppController {
   }
 
   @Get('health')
-  @AllowedSites(['localhost'])
+  // @AllowedSites(['localhost'])
+  @AllowedSitesV2(['localhost'])
   healthCheck(@Res() res: Response, @RequestHeaders('host') requestHeaders: unknown) {
-    console.log(requestHeaders);
     return this.appService.healthCheck(res);
   }
 }
-
