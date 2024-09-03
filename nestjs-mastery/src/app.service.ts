@@ -1,10 +1,14 @@
 /**
- * Useful articles: 
+ * Useful articles:
  * 1. https://blog.bitsrc.io/typescripts-reflect-metadata-what-it-is-and-how-to-use-it-fb7b19cfc7e2
  */
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import 'reflect-metadata';
+import { v4 as uuidv4 } from 'uuid';
+import { AppVersionEnum, IAppVersionInfo } from './shared/types';
+import * as moment from 'moment';
+
 function RequestValidator() {
   //This is decorator factory
   return function (target: any, key: string, descriptor: PropertyDescriptor) {
@@ -16,6 +20,9 @@ function RequestValidator() {
         //run and store the result!
         const result = originalMethod.apply(this, args);
         return result;
+      } else {
+        //no arguments passed.
+        return originalMethod.apply(this, args); // Call the original method
       }
     };
     return descriptor;
@@ -84,12 +91,12 @@ function Roles(roles: string[]) {
       return originalMethod.apply(this, args);
     };
   };
-  //By following above idea we can check it in one step! Like this: 
+  //By following above idea we can check it in one step! Like this:
   /**
    * @Roles (['Admin', 'Developer'])
    * checkPassword()
    */
-  // And by using useRolesGuard() we had to do this. 
+  // And by using useRolesGuard() we had to do this.
   /**
    * @Roles (['Admin', 'Developer'])
    * @useRolesGuard ()
@@ -107,9 +114,23 @@ export class AppService {
   @isValidApiVersion('1.0')
   private appServiceVersion = 'v1';
 
+  private readonly appVersionInfo: (IAppVersionInfo | undefined)[] = Object.keys(
+    AppVersionEnum
+  ).map((item, index) => {
+    // if (isNaN(Number(item))) {
+    return {
+      uuid: uuidv4(),
+      version: AppVersionEnum[item as keyof typeof AppVersionEnum],
+      releaseDate: moment().subtract(index, 'year').format('YYYY-MM-DD'),
+      releaseNote: `Version ${item} was released.`,
+    };
+    // }
+  });
+  // .filter(val => val);
   constructor() {
     // console.log(Reflect.getMetadata('Version', AppService.prototype, this.myMethod.name)); // output: {apiVersion: 1}
     // console.log(Object.keys(this)) // output: appServiceVersion
+    // console.log(this.appVersionInfo);
   }
   @Versioning({ apiVersion: 2 })
   myMethod() {
@@ -118,6 +139,8 @@ export class AppService {
 
   @RequestValidator()
   getHello(input?: { params?: string[] }): string {
+    console.log('eror?');
+    throw new Error('Custom error!');
     return input?.params?.join(' ') ?? 'Hello World!';
   }
 
