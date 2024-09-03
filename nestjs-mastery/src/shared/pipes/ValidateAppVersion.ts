@@ -10,7 +10,6 @@ import { AppVersionEnum } from '../types';
 @Injectable()
 export class ValidateAppVersion implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    console.log(metadata)
     let validAppVersions = Object.keys(AppVersionEnum);
     if (validAppVersions.includes(value)) {
       return value;

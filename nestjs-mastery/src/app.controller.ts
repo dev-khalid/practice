@@ -28,7 +28,6 @@ export class AppController {
 
   @Get('/app-info/:id')
   getAppInfoByVersion(@AppVersion('id', new ValidateAppVersion()) appVersion: string) {
-    console.log(appVersion)
-    return appVersion;
+    return this.appService.getAppInfoByVersion(appVersion);
   }
 }

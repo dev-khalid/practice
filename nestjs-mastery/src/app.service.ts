@@ -151,4 +151,8 @@ export class AppService {
     return res.json(this.getHello({ params: ['Hello', 'Khalid'] }));
     // return res.json({ status: 'UP' });
   }
+
+  getAppInfoByVersion(appVersion: string) {
+    return this.appVersionInfo?.find((item) => item && (item.version as unknown as string) == appVersion);
+  }
 }
