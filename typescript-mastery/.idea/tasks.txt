@@ -6,3 +6,7 @@ Study list of reflect-meatadata:
 2. https://docs.nestjs.com/custom-decorators
 3. https://github.com/typestack/class-validator
 4. Reflect-metadata documentation.
+
+Plan for nestjs-mastery: 
+1. Complete documentation. 
+2. Study this open-source project: https://github.com/ever-co/ever
