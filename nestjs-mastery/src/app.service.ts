@@ -139,16 +139,16 @@ export class AppService {
 
   @RequestValidator()
   getHello(input?: { params?: string[] }): string {
-    console.log('eror?');
-    throw new Error('Custom error!');
+    // console.log('error?');
+    // throw new Error('Custom error!');
     return input?.params?.join(' ') ?? 'Hello World!';
   }
 
   @deprecatedMethod()
-  // @optionalDelay(5)
+  @optionalDelay(2)
   healthCheck(res: Response) {
-    console.log(Reflect.getMetadata('my-decorator', AppService.prototype, 'myMethod'));
-    return res.json(this.getHello({ params: ['Hello', 'Khalid'] }));
+    // console.log(Reflect.getMetadata('my-decorator', AppService.prototype, 'myMethod'));
+    return res.json(this.getHello({ params: ['Hello', 'Khalid Hossain'] }));
     // return res.json({ status: 'UP' });
   }
 

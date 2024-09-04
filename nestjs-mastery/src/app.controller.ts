@@ -1,14 +1,16 @@
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express';
 import { RequestHeaders } from './shared/custom-decorators/RequestHeaders';
-import { AllowedSites } from './shared/custom-decorators/AllowedSites';
-import { SiteGuard } from './shared/custom-decorators/SiteGuard';
 import { AllowedSitesV2 } from './shared/custom-decorators/AllowedSitesV2';
 import { AppVersion } from './shared/custom-decorators';
-import { AppVersionEnum } from './shared/types';
 import { ValidateAppVersion } from './shared/pipes';
+// import { SiteGuard } from './shared/custom-decorators/SiteGuard';
+// import { AppVersionEnum } from './shared/types';
+// import { AllowedSites } from './shared/custom-decorators/AllowedSites';
+// import { LoggingInterceptor } from './shared/interceptors';
 
+// @UseInterceptors(LoggingInterceptor)
 @Controller()
 // @UseGuards(SiteGuard)
 export class AppController {
