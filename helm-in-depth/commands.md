@@ -13,3 +13,6 @@
 13. `helm show values <chart-name>`
 
 To continue: https://helm.sh/docs/intro/using_helm/
+
+Using helm: 
+1. `helm upgrade my-mysql-release-name bitnami/mysql -f values.yml` | It will upgrade existing helm release with new values.
