@@ -23,3 +23,7 @@
   To see what's loaded by the template engine `helm get manifest <release-name>`
   So we could read {{ .Release.Name }} as "start at the top namespace, find the Release object, then look inside of it for an object called Name".
   Without installing template we can check the final values/rendered templates etc by `helm install --debug --dry-run <release-name> ./mychart`
+
+#### Helm hooks
+  [Run database migration before helm upgrade](https://www.abrahamberg.com/blog/kubernetes-database-migration-with-helm-and-ci-cd-pipelines/)
+  
