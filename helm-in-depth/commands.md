@@ -15,4 +15,8 @@
 To continue: https://helm.sh/docs/intro/using_helm/
 
 Using helm: 
-1. `helm upgrade my-mysql-release-name bitnami/mysql -f values.yml` | It will upgrade existing helm release with new values.
+1. `helm upgrade <release> bitnami/mysql -f </path/to/values.yml>` | It will upgrade existing helm release with new values.
+
+Chart development: 
+1. `helm get manifest <release-name>` | Shows what's loaded by the template engine.
+2. `helm install --debug --dry-run <release-name> ./mychart` | Shows final values that is computed and final rendered template by template-engine.

@@ -15,3 +15,11 @@
   To change config or make some new changes applicable we use `helm upgrade` 
   We can see history of a helm release by `helm history <release-name>`
   To keep repo up to date: `helm repo update`
+
+#### Topics > Charts
+  To view charts without installing it `helm pull chartrepo/chartname`.
+  To download dependency files `helm dependency update`
+#### Chart development > Getting started
+  To see what's loaded by the template engine `helm get manifest <release-name>`
+  So we could read {{ .Release.Name }} as "start at the top namespace, find the Release object, then look inside of it for an object called Name".
+  Without installing template we can check the final values/rendered templates etc by `helm install --debug --dry-run <release-name> ./mychart`

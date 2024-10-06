@@ -1,0 +1,10 @@
+favorite:
+  drink: coffee
+  food: pizza
+  game: chess
+
+pizzaToppings:
+  - mushrooms
+  - cheese
+  - peppers
+  - onions
