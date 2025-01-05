@@ -55,7 +55,7 @@ class EmailQueueService {
     });
 
     this.serverAdapter = new ExpressAdapter();
-    const bullBoard = createBullBoard({
+    createBullBoard({
       queues: [new BullMQAdapter(this.queue)],
       serverAdapter: this.serverAdapter,
     });

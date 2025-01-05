@@ -1,10 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
 import http from "node:http";
 import emailQueueService from "./services/email-queue-service";
+import fileContentEncQueueService from "./services/file-content-encryption-quque-service";
 const app = express();
 
 app.use("/email-queue", emailQueueService.serverAdapter.getRouter());
-
+app.use(
+  "/file-content-encryption-queue",
+  fileContentEncQueueService.serverAdapter.getRouter()
+);
 app.get("/add-email/:email", (req, res) => {
   emailQueueService.addEmail(req?.params?.email, {
     attempts: 3,

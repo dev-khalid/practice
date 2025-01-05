@@ -25,6 +25,7 @@ services:
     environment:
       REDIS_HOST: redis_service # Passes the Redis service name as the host
       REDIS_PASS: some-secure-pass-khalid # Passes the Redis password
+      VIDEO_ENCRYPTION_KEY: 1E@&&(q.wee)*%%$
     ports:
       - 5050:5000
     command: ["npm", "run", "dev"]
