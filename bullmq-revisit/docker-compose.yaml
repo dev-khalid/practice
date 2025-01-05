@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis_service
+    ports:
+      - "6379:6379" # Maps the container's Redis port to the host
+    volumes:
+      - redis_data:/data # Persistent storage for Redis data
+    command: [
+        "redis-server",
+        "--requirepass",
+        "some-secure-pass-khalid",
+        "--appendonly",
+        "yes",
+      ] # Configures Redis with a password and data persistence
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "some-secure-pass-khalid", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  server:
+    image: node:22-alpine
+    environment:
+      REDIS_HOST: redis_service # Passes the Redis service name as the host
+      REDIS_PASS: some-secure-pass-khalid # Passes the Redis password
+    ports:
+      - 5050:5000
+    command: ["npm", "run", "dev"]
+    working_dir: /app
+    volumes:
+      - ./:/app
+volumes:
+  redis_data:
+    driver: local

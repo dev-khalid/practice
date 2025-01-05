@@ -1,6 +1,8 @@
 import { Queue, Worker, Job, JobsOptions, QueueEvents } from "bullmq";
 import IORedis from "ioredis";
 import emailSendingService from "./email-sending-service";
+import dotenv from "dotenv";
+dotenv.config();
 
 import { createBullBoard } from "@bull-board/api";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter.js";
@@ -16,9 +18,11 @@ class EmailQueueService {
   public readonly serverAdapter;
   constructor() {
     this.connection = new IORedis({
+      port: 6379,
+      host: process.env.REDIS_HOST,
+      password: process.env.REDIS_PASS,
       maxRetriesPerRequest: null,
     });
-
     this.queue = new Queue(this.queueName, {
       connection: this.connection,
     });
@@ -39,7 +43,9 @@ class EmailQueueService {
         },
       }
     );
-    this.queueEvents = new QueueEvents(this.queueName);
+    this.queueEvents = new QueueEvents(this.queueName, {
+      connection: this.connection,
+    });
 
     this.queueEvents.on("completed", (job, result) => {
       console.log("Completed: ", job, result);
@@ -47,7 +53,7 @@ class EmailQueueService {
     this.queueEvents.on("failed", (job, error) => {
       console.log("Failed: ", job, error);
     });
-    
+
     this.serverAdapter = new ExpressAdapter();
     const bullBoard = createBullBoard({
       queues: [new BullMQAdapter(this.queue)],
