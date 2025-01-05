@@ -27,7 +27,9 @@ class FileContentEncQueueService {
       maxRetriesPerRequest: null,
     });
 
-    this.queue = new Queue(this.queueName);
+    this.queue = new Queue(this.queueName, {
+      connection: this.connection,
+    });
 
     this.worker = new Worker(
       this.queueName,
